@@ -1,0 +1,2 @@
+-Dlisa.tmpdir=/opt/devtest/tmp
+-Djava.io.tmpdir=/opt/devtest/tmp

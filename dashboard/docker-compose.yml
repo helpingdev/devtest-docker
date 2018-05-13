@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: edb.dockerfile
+    image: dradis-licensed-mysql:latest
+    links:
+      - mysql-server
+    ports:
+      - "1506:1506"
+    command: /opt/devtest/bin/EnterpriseDashboard -J-Ddradis.db.driverClass=com.mysql.jdbc.Driver -J-Ddradis.db.url=jdbc:mysql://mysql-server:3306/edb -J-Ddradis.db.user=edb -J-Ddradis.db.password=edb -J-Ddradis.db.internal.enabled=false
+  mysql-server:
+    image: mysql:5.7
+    ports:
+     - 3306:3306
+    environment:
+      MYSQL_USER: edb
+      MYSQL_PASSWORD : edb
+      MYSQL_DATABASE: edb
+    command:
+      - "--character-set-server=utf8"
+      - "--innodb_log_buffer_size=32M"
+      - "--innodb_log_file_size=80M"
+      - "--max_allowed_packet=8M"
